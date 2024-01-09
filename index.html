@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Statistics</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Top language statistics by commit</h1>
+        <div class="input-github">
+            <input class="input-nama" type="text" placeholder="Masukkan Nama Github..." id="githubUsername">
+            <button class="btn-cari" onclick="searchGithub()">Search</button>
+        </div>
+        <p>Most Used Languages: <span id="totalVisits">0</span></p>
+        <canvas id="chart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
