@@ -2,7 +2,12 @@ async function searchGithub() {
     const username = document.getElementById('githubUsername').value;
 
     if (!username) {
-        alert('Silakan masukkan nama GitHub.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Silakan masukkan nama GitHub.',
+            zIndex: 9999
+        });
         return;
     }
 
@@ -22,12 +27,22 @@ async function searchGithub() {
         document.getElementById('totalVisits').innerText = Object.keys(languages).length;
     } catch (error) {
         console.error('Error fetching GitHub repositories:', error);
-        alert('Terjadi kesalahan saat mengambil data dari GitHub. Silakan coba lagi.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Terjadi kesalahan saat mengambil data dari GitHub. Silakan coba lagi.',
+            zIndex: 9999
+        });
     }
 }
 
 function displayChart(labels, data) {
-    const ctx = document.getElementById('chart').getContext('2d');
+    const canvas = document.getElementById('chart');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = 300;
+    canvas.height = 200;
+
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -35,17 +50,53 @@ function displayChart(labels, data) {
             datasets: [{
                 label: 'Jumlah Commits',
                 data: data,
-                backgroundColor: generateRandomColors(labels.length),
+                backgroundColor: generateTwoColors(labels.length)
             }],
         },
+        options: {
+            plugins: {
+                customCanvasBackgroundColor: {
+                    color: 'lightGreen',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: 'white',
+                    },
+                    grid: {
+                        color: 'rgba(168, 114, 247, 1)',
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: 'white',
+                    },
+                    grid: {
+                        color: 'rgba(68, 147, 219, 1)',
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        fontColor: 'white'
+                    }
+                }
+            }
+        }
     });
 }
 
-function generateRandomColors(count) {
+function generateTwoColors(count) {
     const colors = [];
     for (let i = 0; i < count; i++) {
-        const color = '#' + Math.floor(Math.random()*16777215).toString(16);
-        colors.push(color);
+        if (i % 2 === 0) {
+            colors.push('#4197DB');
+        } else {
+            colors.push('#AA71F6');
+        }
     }
     return colors;
 }
